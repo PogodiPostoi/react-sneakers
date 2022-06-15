@@ -11,4 +11,6 @@ You know how to start this project local. Let's skip it.
 ### EN: Used technologies
 ### RU: Используемые технологии
 
-Данные по кроссовкам в карточки тянул из back-end'a с помощью https://mockapi.io/
+Данные передавал тянул из back-end'a с помощью https://mockapi.io/
+Использовал axios для передачи данных
+Использовал библиотеку react-router для перехода по нескольким страницам
