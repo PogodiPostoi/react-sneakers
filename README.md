@@ -6,7 +6,7 @@ You know how to start this project local. Let's skip it.
 
 ## title 2
 
-
+https://pogodipostoi.github.io/react-sneakers/
 
 ### EN: Used technologies
 ### RU: Используемые технологии
