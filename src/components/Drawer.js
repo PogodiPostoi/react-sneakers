@@ -1,4 +1,40 @@
+import React from 'react';
+import axios from 'axios';
+
+import Info from "./Info";
+import { AppContext } from '../App'
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 function Drawer( {onClose, onRemove, items = []} ) {
+    const [isOrderComplete, setIsOrderComplete] = React.useState(false)
+    const [orderId, setOrderId] = React.useState(null)
+    const [isLoading, setIsLoading] = React.useState(false)
+    const {cartItems, setCartItems} = React.useContext(AppContext)
+
+    const onClickOrder = async () => {
+        try {
+            setIsLoading(true)
+            const {data} = await axios.post("https://62920ec19d159855f084db80.mockapi.io/orders", {
+                items: cartItems
+            })
+            setOrderId(data.id)
+            setIsOrderComplete(true)
+            setCartItems([])
+
+            /*Из-за особенностей mockAPI, делаем костыль на удаление*/ 
+            for (let i = 0; i < cartItems.length; i++) {
+                const item = cartItems[i];
+                await axios.delete("https://62920ec19d159855f084db80.mockapi.io/cart/" + item.id)
+                delay(1000)
+            }
+
+        } catch (error) {
+            alert ("Ошибка при создании заказа :(")
+        }
+        setIsLoading(false)
+    }
+
     return (
         <div className="overlay">
             <div className="drawer d-flex flex-column p-30">
@@ -8,10 +44,10 @@ function Drawer( {onClose, onRemove, items = []} ) {
                 </h2>
 
                 {items.length > 0 ? (
-                        <div>
+                        <div className="d-flex flex-column flex">
                             <div className="items mb-30">
                             {items.map((el) => (
-                                <div className="cart-item d-flex align-center p-20 mb-20">
+                                <div key={el.id} className="cart-item d-flex align-center p-20 mb-20">
                                 <img
                                     width={70}
                                     height={70}
@@ -20,7 +56,7 @@ function Drawer( {onClose, onRemove, items = []} ) {
                                     alt="Sneakers"
                                 />
                                 <div className="mr-20">
-                                    <p className="mb-5">{el.name}</p>
+                                    <p className="mb-5">{el.title}</p>
                                     <b>{el.price} руб.</b>
                                 </div>
                                 <img onClick={() => onRemove(el.id)} className="btn-remove" src="/img/btn-remove.svg" alt="Remove" />
@@ -40,21 +76,18 @@ function Drawer( {onClose, onRemove, items = []} ) {
                                 <b>1074 руб.</b>
                             </li>
                             </ul>
-                            <button className="greenButton">
+                            <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
                             Оформить заказ
                             <img src="/img/btn-arrow.svg" alt="Arrow" />
                             </button>
                         </div>
                         </div>
                     ) : (
-                        <div className="cartEmpty d-flex align-center justify-center flex-column flex">
-                            <img src="/img/empty-cart.png" alt="Empty cart" className="mb-20" width="120px" height="120px" />
-                            <h2>Корзина пустая</h2>
-                            <p className="opacity-6 text-center">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-                            <button onClick={onClose} className="greenButton">
-                                <img src="/img/arrow.svg" alt="Arrow" className=""/> Вернуть назад
-                            </button>
-                        </div>
+                        <Info
+                            title = {isOrderComplete ? "Заказ оформлен!" : "Корзина пуста"}
+                            image = {isOrderComplete ? "/img/complete-order.png" : "/img/empty-cart.png"}
+                            description= {isOrderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок"}
+                        />
                     )}
 
             </div>
