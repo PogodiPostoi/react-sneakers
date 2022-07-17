@@ -1,16 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 
-import Info from "./Info";
-import { AppContext } from '../App'
+import styles from "./Drawer.module.scss";
+
+import Info from "../Info";
+import {useCart} from '../../hooks/useCart'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-function Drawer( {onClose, onRemove, items = []} ) {
+function Drawer( {onClose, onRemove, items = [], opened} ) {
     const [isOrderComplete, setIsOrderComplete] = React.useState(false)
     const [orderId, setOrderId] = React.useState(null)
     const [isLoading, setIsLoading] = React.useState(false)
-    const {cartItems, setCartItems} = React.useContext(AppContext)
+    const {cartItems, setCartItems, totalPrice} = useCart()
 
     const onClickOrder = async () => {
         try {
@@ -36,8 +38,8 @@ function Drawer( {onClose, onRemove, items = []} ) {
     }
 
     return (
-        <div className="overlay">
-            <div className="drawer d-flex flex-column p-30">
+        <div className={`${styles.overlay} ${opened ? styles.overlayVisible : '' }`}>
+            <div className={`${styles.drawer} d-flex flex-column p-30`}>
                 <h2 className="m-0 mb-30 d-flex justify-between">
                     Корзина
                     <img onClick={onClose} className="cu-p" src="/img/btn-remove.svg" alt="Remove" />
@@ -45,14 +47,14 @@ function Drawer( {onClose, onRemove, items = []} ) {
 
                 {items.length > 0 ? (
                         <div className="d-flex flex-column flex">
-                            <div className="items mb-30">
+                            <div className="items flex mb-30">
                             {items.map((el) => (
                                 <div key={el.id} className="cart-item d-flex align-center p-20 mb-20">
                                 <img
-                                    width={70}
+                                    width={80}
                                     height={70}
                                     className="mr-20"
-                                    src={el.image}
+                                    src={el.imageUrl}
                                     alt="Sneakers"
                                 />
                                 <div className="mr-20">
@@ -65,20 +67,20 @@ function Drawer( {onClose, onRemove, items = []} ) {
                         </div>
                         <div className="cartTotalBlock">
                             <ul>
-                            <li className="d-flex">
+                            <li className="d-flex justify-between mb-20">
                                 <span>Итого:</span>
                                 <div></div>
-                                <b>21 498 руб.</b>
+                                <b> {totalPrice} руб.</b>
                             </li>
-                            <li className="d-flex">
+                            <li className="d-flex justify-between mb-20">
                                 <span>Налог 5%:</span>
                                 <div></div>
-                                <b>1074 руб.</b>
+                                <b> {totalPrice / 100 * 5} руб.</b>
                             </li>
                             </ul>
                             <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
-                            Оформить заказ
-                            <img src="/img/btn-arrow.svg" alt="Arrow" />
+                                Оформить заказ
+                            <img src="/img/btn-arrow.svg" alt="Arrow"/>
                             </button>
                         </div>
                         </div>

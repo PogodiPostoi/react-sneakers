@@ -19,14 +19,15 @@ function Home({
                             : filteredItems)
                     .map((item, index) => (
                         <Card
-                        key={index}
-                        title={item.title}
-                        price={item.price}
-                        imageUrl={item.image}
-                        id={item.id}
-                        onPlus={(el) => onAddToCart(item)}
-                        onFavorite={(obj) => onAddToFavorite(obj)}
-                        loading={isLoading}
+                            key={index}
+                            parentId={item.parentId}
+                            title={item.title}
+                            price={item.price}
+                            imageUrl={item.image}
+                            id={item.id}
+                            onPlus={(obj) => onAddToCart(obj)}
+                            onFavorite={(obj) => onAddToFavorite(obj)}
+                            loading={isLoading}
                         />
                     ))
             }
