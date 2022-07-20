@@ -8,7 +8,7 @@ function Header(props) {
 
     return (
         <header className="d-flex justify-between align-center p-40">
-        <Link to="/react-sneakers">
+        <Link to="">
             <div className="header-left d-flex align-center">
                 <img
                 className="mr-15"
