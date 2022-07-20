@@ -42,7 +42,7 @@ function Drawer( {onClose, onRemove, items = [], opened} ) {
             <div className={`${styles.drawer} d-flex flex-column p-30`}>
                 <h2 className="m-0 mb-30 d-flex justify-between">
                     Корзина
-                    <img onClick={onClose} className="cu-p" src="/img/btn-remove.svg" alt="Remove" />
+                    <img onClick={onClose} className="cu-p" src="img/btn-remove.svg" alt="Remove" />
                 </h2>
 
                 {items.length > 0 ? (
@@ -61,7 +61,7 @@ function Drawer( {onClose, onRemove, items = [], opened} ) {
                                     <p className="mb-5">{el.title}</p>
                                     <b>{el.price} руб.</b>
                                 </div>
-                                <img onClick={() => onRemove(el.id)} className="btn-remove" src="/img/btn-remove.svg" alt="Remove" />
+                                <img onClick={() => onRemove(el.id)} className="btn-remove" src="img/btn-remove.svg" alt="Remove" />
                             </div>
                             ))}
                         </div>
@@ -80,18 +80,17 @@ function Drawer( {onClose, onRemove, items = [], opened} ) {
                             </ul>
                             <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
                                 Оформить заказ
-                            <img src="/img/btn-arrow.svg" alt="Arrow"/>
+                            <img src="img/btn-arrow.svg" alt="Arrow"/>
                             </button>
                         </div>
                         </div>
                     ) : (
                         <Info
                             title = {isOrderComplete ? "Заказ оформлен!" : "Корзина пуста"}
-                            image = {isOrderComplete ? "/img/complete-order.png" : "/img/empty-cart.png"}
+                            image = {isOrderComplete ? "img/complete-order.png" : "img/empty-cart.png"}
                             description= {isOrderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок"}
                         />
                     )}
-
             </div>
         </div>
 

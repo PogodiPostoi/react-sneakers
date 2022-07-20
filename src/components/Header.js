@@ -12,7 +12,7 @@ function Header(props) {
             <div className="header-left d-flex align-center">
                 <img
                 className="mr-15"
-                src="/img/sneaker-logo.png"
+                src="img/sneaker-logo.png"
                 alt="sneaker-logos"
                 />
                 <div>
@@ -23,17 +23,17 @@ function Header(props) {
         </Link>
         <ul className="header-right d-flex">
             <li className="cu-p" onClick={props.onClickCart}>
-                <img className="mr-10" src="/img/cart.svg" alt="cart-icon" />
+                <img className="mr-10" src="img/cart.svg" alt="cart-icon" />
                 <span> {totalPrice ? `${totalPrice} руб.` : ''} </span>
             </li>
             <li>
                 <Link to="/favorites">
-                    <img src="/img/favorite.svg" alt="favorite-icon" className="cu-p"/>
+                    <img src="img/favorite.svg" alt="favorite-icon" className="cu-p"/>
                 </Link>
             </li>
             <li>
                 <Link to="/orders">
-                    <img src="/img/profile.svg" alt="profile-icon" />
+                    <img src="img/profile.svg" alt="profile-icon" />
                 </Link>
                 
             </li>
